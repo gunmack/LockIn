@@ -22,9 +22,10 @@ export default function Navbar() {
           Profile
         </Link>
         <Link
-          href="/api/auth/signout"
+          href="#"
           className="py-2 hover:text-white hover:bg-black hover:px-2 hover:rounded-lg 
         transition-all duration-300 ease-in-out"
+          onClick={() => redirect("/api/auth/signout?callbackUrl=/")}
         >
           Sign Out
         </Link>

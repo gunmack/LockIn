@@ -1,34 +1,76 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const path = usePathname();
   return (
-    <div>
-      <div className=" bg-white text-black p-2 w-full flex justify-end fixed gap-10 px-4">
-        <Link
-          href="/"
-          className="py-2 hover:text-white hover:bg-black hover:px-2 hover:rounded-lg 
+    <div className="flex flex-row w-3/4 mx-auto">
+      <div className=" bg-white text-black py-2 px-4 rounded-lg flex justify-between items-center fixed m-2 w-3/4 mx-auto ">
+        <div className="flex  gap-4 left-2  ">
+          <Link
+            href="/home/feed"
+            className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
+              path === "/home/feed"
+                ? "bg-black text-white px-4"
+                : "hover:text-white hover:bg-black hover:px-4"
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            href="/home/clock"
+            className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
+              path === "/home/clock"
+                ? "bg-black text-white px-4"
+                : "hover:text-white hover:bg-black hover:px-4"
+            }`}
+          >
+            Clock
+          </Link>
+          <Link
+            href="#"
+            className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
+              path === "/home/calendar"
+                ? "bg-black text-white px-4"
+                : "hover:text-white hover:bg-black hover:px-4"
+            }`}
+          >
+            Calendar
+          </Link>
+          <Link
+            href="#"
+            className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
+              path === "/home/calendar"
+                ? "bg-black text-white px-4"
+                : "hover:text-white hover:bg-black hover:px-4"
+            }`}
+          >
+            Tasks
+          </Link>
+        </div>
+
+        <div className="flex gap-4 ">
+          <Link
+            href="/home/profile"
+            className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
+              path === "/home/profile"
+                ? "bg-black text-white px-4"
+                : "hover:text-white hover:bg-black hover:px-4"
+            }`}
+          >
+            Account
+          </Link>
+          <Link
+            href="#"
+            className="py-2 px-2 rounded-lg text-red-700 font-bold hover:text-white hover:bg-red-700 hover:px-4 
         transition-all duration-300 ease-in-out"
-        >
-          LockIn
-        </Link>
-        <Link
-          href="#"
-          className="py-2 hover:text-white hover:bg-black hover:px-2 hover:rounded-lg 
-        transition-all duration-300 ease-in-out"
-        >
-          Profile
-        </Link>
-        <Link
-          href="#"
-          className="py-2 hover:text-white hover:bg-black hover:px-2 hover:rounded-lg 
-        transition-all duration-300 ease-in-out"
-          onClick={() => redirect("/api/auth/signout?callbackUrl=/")}
-        >
-          Sign Out
-        </Link>
+            onClick={() => redirect("/api/auth/signout?callbackUrl=/")}
+          >
+            Sign Out
+          </Link>
+        </div>
       </div>
     </div>
   );

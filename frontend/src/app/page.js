@@ -1,19 +1,24 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function App() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Link
-        href="#"
-        className="hover:text-black hover:bg-white hover:p-2 hover:rounded-lg 
+      <button
+        className=" p-2 rounded-lg hover:text-black hover:bg-white hover:p-4 hover:text-2xl
         transition-all duration-300 ease-in-out"
-        onClick={() => redirect("/api/auth/signin?callbackUrl=/home")}
+        onClick={() => redirect("/api/auth/signin?callbackUrl=/home/feed")}
       >
-        Lock In
-      </Link>
+        Clock In
+      </button>
+      <button
+        className=" p-2 rounded-lg hover:text-black hover:bg-white hover:p-4 hover:text-2xl
+        transition-all duration-300 ease-in-out"
+        onClick={() => redirect("/sign-up")}
+      >
+        Register
+      </button>
     </div>
   );
 }

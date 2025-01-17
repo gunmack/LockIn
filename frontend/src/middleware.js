@@ -1,3 +1,7 @@
-export { default } from "next-auth/middleware";
+// Not required with my setup, but here for reference
 
-export const config = { matcher: ["/home"] };
+// export { default } from "next-auth/middleware";
+
+// export const config = { matcher: ["/home/:path*"] };
+
+// console.log("Middleware is running");

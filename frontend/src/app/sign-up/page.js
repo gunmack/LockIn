@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import SignIn from "@/utils/signIn";
 import emailHandler from "@/app/sign-up/handler";
 import Form from "@/app/sign-up/form";
 
@@ -9,6 +10,7 @@ export default function Signup() {
   const [validEmail, setEmailValid] = useState(false);
   const [error, setError] = useState("");
   const [green, setGreen] = useState("");
+  const [checkingEmail, setCheckingEmail] = useState(false);
 
   const handleEmail = (event) => {
     setEmail(event.target.value); // Only set the value from the input field
@@ -30,6 +32,7 @@ export default function Signup() {
 
   const confirmEmail = async (event) => {
     event.preventDefault();
+    setCheckingEmail(true); // Set the checking email state to true
     if (validateEmail(email)) {
       const res = await emailHandler(email);
       if (res) {
@@ -43,12 +46,13 @@ export default function Signup() {
       setError("Please enter a valid email address."); // Show error message
       setGreen(""); // Clear success message
     }
+    setCheckingEmail(false); // Set the checking email state to false
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
       <div className=" bg-white p-8 rounded-lg shadow-lg w-2/3">
-        <h1 className="text-2xl text-center text-black mb-4">Register</h1>
+        <h1 className="text-2xl text-center text-black mb-4">Registration</h1>
         <div className="flex items-center justify-center p-8 bg-gray-200 text-white rounded-lg">
           {!validEmail && (
             <form
@@ -63,14 +67,19 @@ export default function Signup() {
                 value={email}
                 onChange={handleEmail}
               />
-              {error && <p className="text-red-600">{error}</p>}{" "}
+              {error && <p className="text-red-600">{error}</p>}
               {green && <p className="text-green-600">{green}</p>}
-              <button
-                className="p-2 rounded-lg bg-blue-500 w-1/3  hover:bg-blue-700"
-                type="submit"
-              >
-                Continue
-              </button>
+              {checkingEmail && (
+                <p className="text-blue-600">Checking email...</p>
+              )}
+              {!checkingEmail && (
+                <button
+                  className="p-2 rounded-lg bg-blue-500 w-1/3  hover:bg-blue-700"
+                  type="submit"
+                >
+                  Continue
+                </button>
+              )}
             </form>
           )}
 
@@ -79,10 +88,7 @@ export default function Signup() {
 
         <div className="text-black">
           Already registered? Clock in{" "}
-          <Link
-            className="text-blue-500"
-            href="/api/auth/signin?callbackUrl=/home/feed"
-          >
+          <Link className="text-blue-500" href="#" onClick={() => SignIn()}>
             here
           </Link>
         </div>

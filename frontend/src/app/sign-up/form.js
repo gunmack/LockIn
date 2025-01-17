@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import addUser from "@/app/sign-up/addUser";
 
 export default function Form({ email }) {
@@ -37,6 +36,7 @@ export default function Form({ email }) {
   const confirmUser = async () => {
     try {
       setUserAdded(true);
+
       await addUser(email, username, password);
     } catch (error) {
       console.error("Error adding user:", error);
@@ -102,15 +102,8 @@ export default function Form({ email }) {
       <div className="flex flex-col items-center justify-center ">
         <div className=" bg-white p-8 rounded-lg shadow-lg w-2/3">
           <h1 className="text-2xl text-center text-black mb-4">Success!</h1>
-          <p className="text-black">
-            You have successfully registered. Clock in{" "}
-            <Link
-              className="text-blue-500"
-              href="/api/auth/signin?callbackUrl=/home/feed"
-            >
-              {" "}
-              here
-            </Link>
+          <p className="text-black text-center">
+            You have successfully registered. Clock in via the link below.
           </p>
         </div>
       </div>

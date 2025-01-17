@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { redirect } from "next/navigation";
+import SignIn from "@/utils/signIn";
 
 export default function App() {
   return (
@@ -8,7 +9,7 @@ export default function App() {
       <button
         className=" p-2 rounded-lg hover:text-black hover:bg-white hover:p-4 hover:text-2xl
         transition-all duration-300 ease-in-out"
-        onClick={() => redirect("/api/auth/signin?callbackUrl=/home/feed")}
+        onClick={() => SignIn()}
       >
         Clock In
       </button>

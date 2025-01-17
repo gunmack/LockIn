@@ -17,7 +17,7 @@ export default function Navbar() {
                 : "hover:text-white hover:bg-black hover:px-4"
             }`}
           >
-            Home
+            Feed
           </Link>
           <Link
             href="/home/clock"

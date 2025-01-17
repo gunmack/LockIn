@@ -1,17 +1,18 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToMongoDB, closeMongoDBConnection } from "@/mongodb/connect";
+import bcrypt from "bcryptjs";
+import { redirect } from "next/dist/server/api-utils";
 
 async function authorizeDB(credentials) {
   try {
     const db = await connectToMongoDB();
     const user = await db.collection("Users").findOne({
-      username: credentials.username,
-      password: credentials.password,
+      email: credentials.email,
     });
     if (
-      user.username === credentials.username &&
-      user.password === credentials.password
+      bcrypt.compare(credentials.password, user.password)
+      // user.password === credentials.password
     ) {
       return { id: user._id, name: user.username };
     } else {
@@ -40,7 +41,7 @@ export const options = {
       id: "credentials",
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "username" },
+        email: { label: "Email", type: "email", placeholder: "Email" },
         password: {
           label: "Password",
           type: "password",
@@ -48,15 +49,6 @@ export const options = {
         },
       },
       async authorize(credentials) {
-        // const user = { id: 1, name: "Test User", password: "password" };
-        // if (
-        //   credentials.username === user.name &&
-        //   credentials.password === user.password
-        // ) {
-        //   return user;
-        // } else {
-        //   return null;
-        // }
         const user = await authorizeDB(credentials);
 
         if (user) {
@@ -67,12 +59,6 @@ export const options = {
       },
     }),
   ],
-  pages: {
-    // signIn: "/auth/signin",
-    // signOut: "/auth/signout",
-    // error: "/auth/error",
-    // verifyRequest: "/auth/verify-request",
-    // newUser: "/auth/new-user",
-  },
+  pages: {},
   secret: process.env.NEXTAUTH_SECRET,
 };

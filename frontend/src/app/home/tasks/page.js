@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
-import DisplayTasks from "@/app/home/tasks/list";
+import TaskList from "@/app/home/tasks/list";
 
 export default async function Tasks() {
   const session = await getServerSession(options);
@@ -11,7 +11,7 @@ export default async function Tasks() {
           {session.user.name}&apos;s Tasks
         </h1>
         <div>
-          <DisplayTasks />
+          <TaskList />
         </div>
       </div>
     </div>

@@ -1,12 +1,19 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaArrowUp, FaArrowDown, FaPause } from "react-icons/fa";
 import { VscDebugStart } from "react-icons/vsc";
 import { RiResetRightFill } from "react-icons/ri";
 
 export default function CountdownTimer() {
-  const [time, setTime] = useState(0); // Initial countdown time in seconds (5 minutes)
-  const [isRunning, setIsRunning] = useState(false);
+  const [time, setTime] = useState(() => {
+    const savedTime = localStorage.getItem("countdown-time");
+    return savedTime ? parseInt(savedTime, 10) : 0;
+  });
+  const [isRunning, setIsRunning] = useState(() => {
+    const savedState = localStorage.getItem("countdown-isRunning");
+    return savedState === "true";
+  });
+
   const [resetAble, setResetAble] = useState(true);
   const [countDown, setCountDown] = useState(false);
   const timerRef = useRef(null);
@@ -25,34 +32,44 @@ export default function CountdownTimer() {
 
   const startTimer = () => {
     if (!isRunning && time > 0) {
+      const endTime = Date.now() + time * 1000; // Calculate the end time
+      localStorage.setItem("countdown-endTime", endTime);
+      localStorage.setItem("countdown-isRunning", true);
       setIsRunning(true);
       setResetAble(false);
       setCountDown(true);
       timerRef.current = setInterval(() => {
-        setTime((prevTime) => {
-          if (prevTime <= 1) {
-            clearInterval(timerRef.current);
-            setIsRunning(false);
-            setCountDown(false);
-            return 0;
-          }
-          return prevTime - 1;
-        });
+        const remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        setTime(remainingTime);
+        if (remainingTime <= 0) {
+          clearInterval(timerRef.current);
+          setIsRunning(false);
+          setCountDown(false);
+          localStorage.removeItem("countdown-endTime");
+          localStorage.setItem("countdown-isRunning", false);
+        }
       }, 1000);
     }
   };
 
   const pauseTimer = () => {
     setIsRunning(false);
-    clearInterval(timerRef.current);
     setResetAble(true);
+    clearInterval(timerRef.current);
+    const remainingTime = time;
+    localStorage.setItem("countdown-time", remainingTime);
+    localStorage.setItem("countdown-isRunning", false);
   };
 
   const resetTimer = () => {
     setIsRunning(false);
     setCountDown(false);
+    setResetAble(true);
     clearInterval(timerRef.current);
-    setTime(0); // Reset to initial time (5 minutes)
+    setTime(0);
+    localStorage.removeItem("countdown-time");
+    localStorage.removeItem("countdown-isRunning");
+    localStorage.removeItem("countdown-endTime");
   };
 
   const incrementSec = () => {
@@ -81,6 +98,39 @@ export default function CountdownTimer() {
       setTime((prevTime) => prevTime - 3600);
     }
   };
+
+  const adjustTime = (amount) => {
+    setTime((prevTime) => Math.max(0, prevTime + amount));
+  };
+
+  useEffect(() => {
+    const savedEndTime = localStorage.getItem("countdown-endTime");
+    if (isRunning && savedEndTime) {
+      const remainingTime = Math.max(0, Math.floor((savedEndTime - Date.now()) / 1000));
+      setCountDown(true);
+      setTime(remainingTime);
+      setResetAble(false);
+      if (remainingTime > 0) {
+        timerRef.current = setInterval(() => {
+          const newRemainingTime = Math.max(0, Math.floor((savedEndTime - Date.now()) / 1000));
+          setTime(newRemainingTime);
+          if (newRemainingTime <= 0) {
+            clearInterval(timerRef.current);
+            setIsRunning(false);
+            setResetAble(false);
+            setCountDown(false);
+            localStorage.removeItem("countdown-endTime");
+          }
+        }, 1000);
+      } else {
+        setIsRunning(false);
+        setCountDown(false);
+        localStorage.removeItem("countdown-endTime");
+      }
+    }
+    return () => clearInterval(timerRef.current);
+  }, [isRunning]);
+
 
   return (
     <div>
@@ -124,7 +174,7 @@ export default function CountdownTimer() {
 
       {countDown && (
         <div className="flex items-center justify-center gap-4">
-          <div className="text-6xl font-mono mb-6 bg-gray-200 text-black p-4 ml-8 rounded-lg">
+          <div className="text-6xl font-mono mb-6 bg-gray-200 text-black p-4 ml-4 rounded-lg">
             {
               <div>
                 {formatTime(time)[0]}

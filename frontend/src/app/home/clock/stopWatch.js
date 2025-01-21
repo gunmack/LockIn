@@ -1,39 +1,55 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { VscDebugStart } from "react-icons/vsc";
 import { FaPause } from "react-icons/fa";
 import { RiResetRightFill } from "react-icons/ri";
 export default function Stopwatch() {
-  const [time, setTime] = useState(0); // Time in milliseconds
-  const [isRunning, setIsRunning] = useState(false); // Stopwatch state
+
   const [resetAble, setresetAble] = useState(false); // Pause state
   const timerRef = useRef(null); // Reference for the interval
+
+  const [time, setTime] = useState(() => {
+    // Load saved time from localStorage if available
+    const savedTime = localStorage.getItem("stopwatch-time");
+    return savedTime ? parseInt(savedTime, 10) : 0;
+  });
+
+  const [isRunning, setIsRunning] = useState(() => {
+    // Load running state from localStorage
+    const savedState = localStorage.getItem("stopwatch-isRunning");
+    return savedState === "true";
+  });
 
   // Start the stopwatch
   const startStopwatch = () => {
     if (!isRunning) {
+      const startTimestamp = Date.now() - time;
+      localStorage.setItem("stopwatch-startTimestamp", startTimestamp);
       setIsRunning(true);
+      localStorage.setItem("stopwatch-isRunning", true);
       setresetAble(false);
-      timerRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 10); // Increment time by 10ms
-      }, 10);
     }
   };
 
   // Stop the stopwatch
   const stopStopwatch = () => {
     if (isRunning) {
+      const elapsedTime = Date.now() - parseInt(localStorage.getItem("stopwatch-startTimestamp"), 10);
+      setTime(elapsedTime);
+      localStorage.setItem("stopwatch-time", elapsedTime);
       setIsRunning(false);
+      localStorage.setItem("stopwatch-isRunning", false);
       setresetAble(true);
-      clearInterval(timerRef.current);
     }
   };
 
   // Reset the stopwatch
   const resetStopwatch = () => {
-    clearInterval(timerRef.current);
-    setIsRunning(false);
-    setresetAble(false);
     setTime(0);
+    setIsRunning(false);
+    localStorage.removeItem("stopwatch-time");
+    localStorage.removeItem("stopwatch-isRunning");
+    localStorage.removeItem("stopwatch-startTimestamp");
+    setresetAble(false);
   };
 
   // Format time as mm:ss:msms
@@ -41,13 +57,26 @@ export default function Stopwatch() {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
     const milliseconds = Math.floor((time % 1000) / 10);
-    const ret = [
+    return [
       `${minutes.toString().padStart(2, "0")}`,
       `${seconds.toString().padStart(2, "0")}`,
       `${milliseconds.toString().padStart(2, "0")}`,
     ];
-    return ret;
   };
+
+  // Effect to update time while running
+  useEffect(() => {
+    if (isRunning) {
+      const startTimestamp = parseInt(localStorage.getItem("stopwatch-startTimestamp"), 10);
+      timerRef.current = setInterval(() => {
+        setTime(Date.now() - startTimestamp);
+      }, 10);
+    }
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [isRunning]);
 
   return (
     <div className="flex flex-col items-center justify-center ">
@@ -58,7 +87,7 @@ export default function Stopwatch() {
             {formatTime(time)[0]}
             <span className="blink">:</span>
             {formatTime(time)[1]}
-            <span className="blink">:</span>
+            <span className="blink">.</span>
             {formatTime(time)[2]}
           </div>
         )}

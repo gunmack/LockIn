@@ -1,4 +1,7 @@
 import React, { useState, useRef } from "react";
+import { VscDebugStart } from "react-icons/vsc";
+import { FaPause } from "react-icons/fa";
+import { RiResetRightFill } from "react-icons/ri";
 export default function Stopwatch() {
   const [time, setTime] = useState(0); // Time in milliseconds
   const [isRunning, setIsRunning] = useState(false); // Stopwatch state
@@ -67,7 +70,7 @@ export default function Stopwatch() {
             onClick={startStopwatch}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
           >
-            Start
+            <VscDebugStart className="inline-flex items-center justify-center text-2xl" />{" "}
           </button>
         )}
 
@@ -76,7 +79,7 @@ export default function Stopwatch() {
             onClick={stopStopwatch}
             className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
           >
-            Stop
+            <FaPause className="inline-flex items-center justify-center text-2xl" />{" "}
           </button>
         )}
 
@@ -85,7 +88,7 @@ export default function Stopwatch() {
             onClick={resetStopwatch}
             className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           >
-            Reset
+            <RiResetRightFill className="inline-flex items-center justify-center text-2xl" />{" "}
           </button>
         )}
       </div>

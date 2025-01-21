@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaPause } from "react-icons/fa";
+import { VscDebugStart } from "react-icons/vsc";
+import { RiResetRightFill } from "react-icons/ri";
 
 export default function CountdownTimer() {
   const [time, setTime] = useState(0); // Initial countdown time in seconds (5 minutes)
@@ -141,7 +143,7 @@ export default function CountdownTimer() {
             onClick={startTimer}
             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
           >
-            Start
+            <VscDebugStart className="inline-flex items-center justify-center text-2xl" />{" "}
           </button>
         )}
         {isRunning && (
@@ -149,7 +151,7 @@ export default function CountdownTimer() {
             onClick={pauseTimer}
             className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-700"
           >
-            Pause
+            <FaPause className="inline-flex items-center justify-center text-2xl" />{" "}
           </button>
         )}
         {resetAble && (
@@ -157,7 +159,7 @@ export default function CountdownTimer() {
             onClick={resetTimer}
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
           >
-            Reset
+            <RiResetRightFill className="inline-flex items-center justify-center text-2xl" />
           </button>
         )}
       </div>

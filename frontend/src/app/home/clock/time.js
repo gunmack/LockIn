@@ -68,14 +68,6 @@ function TimeUpdater() {
     };
   }, [timeData]);
 
-  // useEffect(() => {
-  //   if (window.innerWidth > 1100 && timeData) {
-  //     setCity(`in ${timeData.zone}`);
-  //   } else {
-  //     setCity("");
-  //   }
-  // }, [timeData]);
-
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="text-6xl font-mono bg-gray-200 text-black p-4 rounded-lg">

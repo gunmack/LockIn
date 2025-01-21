@@ -6,13 +6,15 @@ export default function ConfirmModal({ message, onConfirm, onCancel }) {
         <div className="flex justify-center gap-4">
           <button
             onClick={onConfirm}
-            className="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600"
+            className="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 
+            hover:px-6 transition-all ease-in-out duration-500"
           >
             Yes
           </button>
           <button
             onClick={onCancel}
-            className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600
+            hover:px-6 transition-all ease-in-out duration-500"
           >
             No
           </button>

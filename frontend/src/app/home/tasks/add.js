@@ -33,6 +33,7 @@ export default function AddTask({ onAddTask, onCancel }) {
 
   return (
     <div className="flex flex-col gap-4 py-4">
+      <h2 className="text-2xl font-bold">New Task</h2>
       <div>
         <textarea
           type="text"
@@ -67,13 +68,17 @@ export default function AddTask({ onAddTask, onCancel }) {
       <div className="flex justify-center gap-2">
         <button
           onClick={handleAddTask}
-          className="p-2 text-black bg-white rounded-lg hover:bg-gray-300 "
+          className="p-2 text-green-700 bg-white rounded-lg hover:text-white
+           hover:bg-green-500 hover:px-4 
+               transition-all ease-in-out duration-500 "
         >
           Add Task
         </button>
         <button
           onClick={onCancel} // Call onCancel to hide AddTask
-          className="p-2 text-black bg-white rounded-lg hover:bg-gray-300"
+          className="p-2 text-red-700 bg-white rounded-lg hover:text-white 
+          hover:bg-red-500 hover:px-4 
+               transition-all ease-in-out duration-500"
         >
           Cancel
         </button>

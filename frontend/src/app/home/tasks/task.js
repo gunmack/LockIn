@@ -6,7 +6,10 @@ import {
   MdCheckBox,
   MdClear,
   MdOutlineAdd,
+  MdModeEdit,
 } from "react-icons/md";
+
+import { IoMdArrowDropdown } from "react-icons/io";
 
 import ConfirmModal from "@/app/home/tasks/confirm";
 import AddTask from "@/app/home/tasks/add";
@@ -33,18 +36,22 @@ function TaskItem({ task }) {
           />
         )}
       </div>
-
-      <div className="border p-2 rounded-lg">
+      <div className="border p-2 rounded-lg w-full max-w-2xl mx-auto">
         {/* Task Header */}
-
         <div>
-          <div className="flex items-center gap-2">
-            <span
-              className="flex justify-between items-center cursor-pointer"
-              onClick={toggleExpand} // Toggle expand on click
-            >
-              <strong>{task.name}</strong>
-            </span>
+          <div className="flex items-center gap-2 justify-between">
+            <strong>
+              {task.name}{" "}
+              <MdModeEdit className="inline-flex hover:cursor-pointer" />
+            </strong>
+            <div className="flex justify-between items-center">
+              <IoMdArrowDropdown
+                className={`text-xl transition-transform duration-300 hover:cursor-pointer ${
+                  isExpanded ? "rotate-0" : "rotate-90"
+                }`}
+                onClick={toggleExpand}
+              />
+            </div>
           </div>
         </div>
 
@@ -54,12 +61,13 @@ function TaskItem({ task }) {
             isExpanded ? "max-h-[500px]" : "max-h-0"
           }`}
         >
-          <div className="mt-2">
+          <div className="mt-2 p-8 break-words ">
             <p>
-              <strong>About:</strong> {task.description || "No description"}
+              <strong>About: </strong> {task.description || "No description"}
             </p>
+            <br />
             <p>
-              <strong>Due:</strong> {task.deadline || "No deadline"}
+              <strong>Due: </strong> {task.deadline || "No deadline"}
             </p>
           </div>
         </div>

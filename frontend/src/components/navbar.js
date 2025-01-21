@@ -40,9 +40,9 @@ export default function Navbar() {
             Calendar
           </Link>
           <Link
-            href="#"
+            href="/home/tasks"
             className={`py-2 px-2 rounded-lg transition-all duration-300 ease-in-out ${
-              path === "/home/calendar"
+              path === "/home/tasks"
                 ? "bg-black text-white px-4"
                 : "hover:text-white hover:bg-black hover:px-4"
             }`}

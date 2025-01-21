@@ -13,8 +13,11 @@ import { IoMdArrowDropdown } from "react-icons/io";
 
 import ConfirmModal from "@/app/home/tasks/confirm";
 import AddTask from "@/app/home/tasks/add";
+import EditTask from "@/app/home/tasks/edit";
 
 function TaskItem({ task }) {
+
+  const [isEditing, setIsEditing] = useState(false);
   const [isChecked, setIsChecked] = useState(false); // State for checkbox toggle
   const [isExpanded, setIsExpanded] = useState(false); // State for expand/collapse
 
@@ -41,8 +44,8 @@ function TaskItem({ task }) {
         <div>
           <div className="flex items-center gap-2 justify-between">
             <strong>
-              {task.name}{" "}
-              <MdModeEdit className="inline-flex hover:cursor-pointer" />
+            {task.name}{" "}
+              <button className="inline-flex hover:cursor-pointer" onClick={setIsEditing(true)}>  <MdModeEdit  /></button>
             </strong>
             <div className="flex justify-between items-center">
               <IoMdArrowDropdown
@@ -122,8 +125,23 @@ function TaskList() {
     setIsAdding(false); // Hide the Add Task form after adding the task
   };
 
+  const editTask = (taskId, taskName, taskDescription, taskDeadline) => {
+    const updatedTaskList = taskList.map((task) =>
+      task.id === taskId
+        ? {
+            ...task,
+            name: taskName,
+            description: taskDescription,
+            deadline: taskDeadline,
+          }
+        : task
+    );
+    setTaskList(updatedTaskList);
+  }
+
   return (
     <div className="flex flex-col gap-8">
+   
       {/* Show AddTask component when adding, hide task list */}
       {isAdding ? (
         <AddTask onAddTask={addTask} onCancel={() => setIsAdding(false)} />

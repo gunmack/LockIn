@@ -7,14 +7,16 @@ import { RiResetRightFill } from "react-icons/ri";
 export default function CountdownTimer() {
   const [time, setTime] = useState(() => {
     const savedTime = localStorage.getItem("countdown-time");
-    return savedTime ? parseInt(savedTime, 10) : 0;
-  });
-  const [isRunning, setIsRunning] = useState(() => {
-    const savedState = localStorage.getItem("countdown-isRunning");
-    return savedState === "true";
+    return savedTime && !isNaN(savedTime) && parseInt(savedTime, 10) >= 0
+      ? parseInt(savedTime, 10)
+      : 0; // Defaults to 0 if savedTime is invalid
   });
 
-  const [resetAble, setResetAble] = useState(true);
+  const [isRunning, setIsRunning] = useState(() => {
+    const savedState = localStorage.getItem("countdown-isRunning");
+    return savedState === "true"; // Defaults to false
+  });
+  const [resetAble, setResetAble] = useState(false);
   const [countDown, setCountDown] = useState(false);
   const timerRef = useRef(null);
 
@@ -39,7 +41,10 @@ export default function CountdownTimer() {
       setResetAble(false);
       setCountDown(true);
       timerRef.current = setInterval(() => {
-        const remainingTime = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        const remainingTime = Math.max(
+          0,
+          Math.floor((endTime - Date.now()) / 1000)
+        );
         setTime(remainingTime);
         if (remainingTime <= 0) {
           clearInterval(timerRef.current);
@@ -64,7 +69,7 @@ export default function CountdownTimer() {
   const resetTimer = () => {
     setIsRunning(false);
     setCountDown(false);
-    setResetAble(true);
+    setResetAble(false);
     clearInterval(timerRef.current);
     setTime(0);
     localStorage.removeItem("countdown-time");
@@ -72,65 +77,66 @@ export default function CountdownTimer() {
     localStorage.removeItem("countdown-endTime");
   };
 
-  const incrementSec = () => {
-    setTime((prevTime) => prevTime + 1);
-  };
-  const decrementSec = () => {
-    if (time > 0) {
-      setTime((prevTime) => prevTime - 1);
-    }
-  };
-
-  const incrementMin = () => {
-    setTime((prevTime) => prevTime + 60);
-  };
-  const decrementMin = () => {
-    if (time > 0) {
-      setTime((prevTime) => prevTime - 60);
-    }
-  };
-
-  const incrementHour = () => {
-    setTime((prevTime) => prevTime + 3600);
-  };
-  const decrementHour = () => {
-    if (time > 0) {
-      setTime((prevTime) => prevTime - 3600);
-    }
-  };
-
-  const adjustTime = (amount) => {
-    setTime((prevTime) => Math.max(0, prevTime + amount));
+  const adjustTime = (amount, maxValue) => {
+    setTime((prevTime) => {
+      if (prevTime === 0 && amount < 0) {
+        if (maxValue !== undefined) {
+          setResetAble(true);
+          // Wrap around to the maximum value
+          return maxValue;
+        }
+      }
+      setResetAble(true);
+      // Adjust time, ensuring it doesn't go below 0
+      return Math.max(0, prevTime + amount);
+    });
   };
 
   useEffect(() => {
     const savedEndTime = localStorage.getItem("countdown-endTime");
-    if (isRunning && savedEndTime) {
-      const remainingTime = Math.max(0, Math.floor((savedEndTime - Date.now()) / 1000));
-      setCountDown(true);
-      setTime(remainingTime);
-      setResetAble(false);
+
+    if (isRunning && time > 0 && savedEndTime) {
+      const remainingTime = Math.max(
+        0,
+        Math.floor((savedEndTime - Date.now()) / 1000)
+      );
+
       if (remainingTime > 0) {
+        setTime(remainingTime);
+        setCountDown(true);
+        setResetAble(false);
+
         timerRef.current = setInterval(() => {
-          const newRemainingTime = Math.max(0, Math.floor((savedEndTime - Date.now()) / 1000));
+          const newRemainingTime = Math.max(
+            0,
+            Math.floor((savedEndTime - Date.now()) / 1000)
+          );
           setTime(newRemainingTime);
           if (newRemainingTime <= 0) {
             clearInterval(timerRef.current);
             setIsRunning(false);
-            setResetAble(false);
             setCountDown(false);
             localStorage.removeItem("countdown-endTime");
+            localStorage.setItem("countdown-isRunning", false);
           }
         }, 1000);
       } else {
+        // If the savedEndTime has passed, clear it
         setIsRunning(false);
         setCountDown(false);
         localStorage.removeItem("countdown-endTime");
+        localStorage.setItem("countdown-isRunning", false);
+        setTime(0);
       }
+    } else if (time === 0) {
+      setIsRunning(false);
+      setCountDown(false);
+      localStorage.setItem("countdown-isRunning", false);
+      setTime(0);
     }
-    return () => clearInterval(timerRef.current);
-  }, [isRunning]);
 
+    return () => clearInterval(timerRef.current);
+  }, [isRunning, time]);
 
   return (
     <div>
@@ -140,10 +146,10 @@ export default function CountdownTimer() {
             {formatTime(time)[0] + "h"}
           </div>
           <div className="flex flex-col gap-4  mb-6">
-            <button onClick={() => incrementHour()}>
+            <button onClick={() => adjustTime(3600)}>
               <FaArrowUp />
             </button>
-            <button onClick={() => decrementHour()}>
+            <button onClick={() => adjustTime(-3600)}>
               <FaArrowDown />
             </button>
           </div>
@@ -151,10 +157,10 @@ export default function CountdownTimer() {
             {formatTime(time)[1] + "m"}
           </div>
           <div className="flex flex-col gap-4  mb-6">
-            <button onClick={() => incrementMin()}>
+            <button onClick={() => adjustTime(60, 3540)}>
               <FaArrowUp />
             </button>
-            <button onClick={() => decrementMin()}>
+            <button onClick={() => adjustTime(-60, 3540)}>
               <FaArrowDown />
             </button>
           </div>
@@ -162,10 +168,10 @@ export default function CountdownTimer() {
             {formatTime(time)[2] + "s"}
           </div>
           <div className="flex flex-col gap-4  mb-6">
-            <button onClick={() => incrementSec()}>
+            <button onClick={() => adjustTime(1, 59)}>
               <FaArrowUp />
             </button>
-            <button onClick={() => decrementSec()}>
+            <button onClick={() => adjustTime(-1, 59)}>
               <FaArrowDown />
             </button>
           </div>

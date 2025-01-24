@@ -14,7 +14,7 @@ export default async function HomeLayout({ children }) {
     <AuthProvider>
       <main>
         <Navbar />
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <div className="flex flex-col items-center justify-center min-w-screen min-h-screen py-2">
           {children}
         </div>
       </main>

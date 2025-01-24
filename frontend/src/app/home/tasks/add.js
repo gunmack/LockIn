@@ -35,6 +35,7 @@ export default function AddTask({ onAddTask, onCancel }) {
     <div className="flex flex-col gap-4 py-4">
       <h2 className="text-2xl font-bold">New Task</h2>
       <div>
+        Task name
         <textarea
           type="text"
           value={taskInput}
@@ -46,6 +47,7 @@ export default function AddTask({ onAddTask, onCancel }) {
         />
       </div>
       <div>
+        Task description
         <textarea
           type="text"
           value={taskDescription}
@@ -57,6 +59,7 @@ export default function AddTask({ onAddTask, onCancel }) {
         />
       </div>
       <div>
+        Task deadline
         <input
           type="date"
           value={taskDeadline}

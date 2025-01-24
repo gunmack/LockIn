@@ -16,8 +16,6 @@ import AddTask from "@/app/home/tasks/add";
 import EditTask from "@/app/home/tasks/edit";
 
 function TaskItem({ task }) {
-
-  const [isEditing, setIsEditing] = useState(false);
   const [isChecked, setIsChecked] = useState(false); // State for checkbox toggle
   const [isExpanded, setIsExpanded] = useState(false); // State for expand/collapse
 
@@ -25,8 +23,8 @@ function TaskItem({ task }) {
   const toggleExpand = () => setIsExpanded((prev) => !prev); // Toggle expand/collapse
 
   return (
-    <div className="flex flex-row items-center justify-center gap-2 w-full">
-      <div>
+    <div className="flex flex-row gap-2 w-full">
+      {/* <div className="flex items-center justify-center">
         {isChecked ? (
           <MdCheckBox
             onClick={() => toggleCheck()}
@@ -38,40 +36,41 @@ function TaskItem({ task }) {
             className="cursor-pointer"
           />
         )}
-      </div>
-      <div className="border p-2 rounded-lg w-full max-w-2xl mx-auto">
-        {/* Task Header */}
-        <div>
-          <div className="flex items-center gap-2 justify-between">
-            <strong>
-            {task.name}{" "}
-              <button className="inline-flex hover:cursor-pointer" onClick={setIsEditing(true)}>  <MdModeEdit  /></button>
-            </strong>
-            <div className="flex justify-between items-center">
-              <IoMdArrowDropdown
-                className={`text-xl transition-transform duration-300 hover:cursor-pointer ${
-                  isExpanded ? "rotate-0" : "rotate-90"
-                }`}
-                onClick={toggleExpand}
-              />
+      </div> */}
+      <div className="flex flex-row items-center justify-center gap-2 w-full bg-white text-black rounded-md">
+        <div className=" p-2 rounded-lg w-full max-w-2xl mx-auto">
+          {/* Task Header */}
+          <div className="flex px-8 ">
+            <div
+              // onClick={toggleExpand}
+              className=" flex gap-2 justify-between w-full "
+            >
+              <strong className="cursor-pointer" onClick={toggleExpand}>
+                {task.name}{" "}
+              </strong>
+              {/* <div>
+                <IoMdArrowDropdown
+                  className={`text-xl transition-transform duration-700  ${
+                    isExpanded ? "rotate-0" : "rotate-90 delay-500"
+                  }`}
+                />
+              </div> */}
             </div>
           </div>
-        </div>
 
-        {/* Smooth Transition for Expanded Details */}
-        <div
-          className={`overflow-hidden transition-max-height duration-1000 ease-in-out ${
-            isExpanded ? "max-h-[500px]" : "max-h-0"
-          }`}
-        >
-          <div className="mt-2 p-8 break-words ">
-            <p>
-              <strong>About: </strong> {task.description || "No description"}
-            </p>
-            <br />
-            <p>
-              <strong>Due: </strong> {task.deadline || "No deadline"}
-            </p>
+          {/* Smooth Transition for Expanded Details */}
+          <div
+            className={`overflow-hidden transition-max-height duration-1000 ease-in-out ${
+              isExpanded ? "max-h-[500px]" : "max-h-0"
+            } `}
+          >
+            <div className="mt-2 p-8 break-words ">
+              <p>{task.description || "No description"}</p>
+              <br />
+              <p>
+                <strong>Due: </strong> {task.deadline || "No deadline"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -79,11 +78,13 @@ function TaskItem({ task }) {
   );
 }
 
-function TaskList() {
+export default function TaskList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [taskState, setTaskState] = useState(""); // State for task details
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
   // Function to remove a task
   const removeTask = (taskId) => {
@@ -136,18 +137,28 @@ function TaskList() {
           }
         : task
     );
+    setIsEditing(false);
     setTaskList(updatedTaskList);
-  }
+  };
 
   return (
     <div className="flex flex-col gap-8">
-   
       {/* Show AddTask component when adding, hide task list */}
-      {isAdding ? (
+      {isEditing && !isAdding && (
+        <EditTask
+          task={taskList.find((task) => task.id === taskToEdit)}
+          onUpdateTask={editTask}
+          onCancel={() => setIsEditing(false)}
+        />
+      )}
+
+      {isAdding && !isEditing && (
         <AddTask onAddTask={addTask} onCancel={() => setIsAdding(false)} />
-      ) : (
-        <>
-          <div className="flex justify-center">
+      )}
+
+      {!isAdding && !isEditing && (
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-center p-2 pb-8 ">
             <button
               onClick={() => setIsAdding(true)}
               className="flex flex-row justify-center items-center gap-2 p-2 text-green-700
@@ -158,44 +169,60 @@ function TaskList() {
             </button>
           </div>
 
-          {/* Only show task list if not adding */}
-          {taskList.length === 0 ? (
-            <p>No tasks available</p>
-          ) : (
-            taskList.map((task) => (
-              <div
-                key={task.id}
-                className="flex flex-row items-center gap-2 pl-8"
-              >
-                <TaskItem key={task.id} task={task} />
-                <div className="flex gap-2">
-                  <button
-                    className="text-green-500 text-xl hover:text-3xl transition-all 
+          <div className="flex flex-col justify-center items-center gap-8 ">
+            {/* Only show task list if not adding */}
+            {taskList.length === 0 ? (
+              <p className="text-center">Add some tasks to track!!</p>
+            ) : (
+              taskList.map((task) => (
+                <div
+                  key={task.id}
+                  className="flex flex-col items-center gap-2 w-1/3 bg-black p-2 rounded-lg"
+                >
+                  <TaskItem key={task.id} task={task} />
+                  <div className="flex justify-between w-full">
+                    <div className="flex flex-row gap-2">
+                      <button
+                        className="text-white bg-blue-500 rounded-sm p-0.5 text-xl hover:bg-blue-600 transition-all 
                     duration-300 ease-in-out"
-                    onClick={() => {
-                      setTaskState("complete");
-                      setIsModalOpen(true);
-                      setTaskToDelete(task.id);
-                    }}
-                  >
-                    <MdOutlineCheck />
-                  </button>
-                  <button
-                    className="text-red-500 text-xl hover:text-3xl transition-all 
+                        onClick={() => {
+                          setIsEditing(true);
+                          setTaskToEdit(task.id);
+                        }}
+                      >
+                        <MdModeEdit />
+                      </button>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      <button
+                        className="text-white bg-green-500 rounded-sm p-0.5 text-xl hover:bg-green-600 transition-all 
                     duration-300 ease-in-out"
-                    onClick={() => {
-                      setTaskState("delete");
-                      setIsModalOpen(true);
-                      setTaskToDelete(task.id); // Set the task to be deleted
-                    }}
-                  >
-                    <MdClear />
-                  </button>
+                        onClick={() => {
+                          setTaskState("complete");
+                          setIsModalOpen(true);
+                          setTaskToDelete(task.id);
+                        }}
+                      >
+                        <MdOutlineCheck />
+                      </button>
+                      <button
+                        className="text-white bg-red-500 rounded-sm p-0.5 text-xl hover:bg-red-600 transition-all 
+                    duration-300 ease-in-out"
+                        onClick={() => {
+                          setTaskState("delete");
+                          setIsModalOpen(true);
+                          setTaskToDelete(task.id); // Set the task to be deleted
+                        }}
+                      >
+                        <MdClear />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
-        </>
+              ))
+            )}
+          </div>
+        </div>
       )}
 
       {isModalOpen && (
@@ -204,8 +231,8 @@ function TaskList() {
             taskState === "complete"
               ? `Are you sure you want to mark the task: ${
                   taskList.find((task) => task.id === taskToDelete)?.name
-                } as complete?`
-              : `Are you sure you want to delete the task: ${
+                } as COMPLETE?`
+              : `Are you sure you want to DELETE the task: ${
                   taskList.find((task) => task.id === taskToDelete)?.name
                 }?`
           }
@@ -216,5 +243,3 @@ function TaskList() {
     </div>
   );
 }
-
-export default TaskList;

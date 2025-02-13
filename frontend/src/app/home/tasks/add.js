@@ -32,8 +32,8 @@ export default function AddTask({ onAddTask, onCancel }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 py-4">
-      <h2 className="text-2xl font-bold">New Task</h2>
+    <div className="flex flex-col gap-4 py-4 px-4">
+      <h2 className="text-xl font-bold text-center">New Task</h2>
       <div>
         Task name
         <textarea

@@ -7,6 +7,7 @@ import {
   MdClear,
   MdOutlineAdd,
   MdModeEdit,
+  MdSave,
 } from "react-icons/md";
 
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -14,6 +15,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import ConfirmModal from "@/app/home/tasks/confirm";
 import AddTask from "@/app/home/tasks/add";
 import EditTask from "@/app/home/tasks/edit";
+import saveList from "@/app/home/tasks/saveList";
 
 function TaskItem({ task }) {
   const [isChecked, setIsChecked] = useState(false); // State for checkbox toggle
@@ -40,10 +42,10 @@ function TaskItem({ task }) {
       <div className="flex flex-row items-center justify-center gap-2 w-full bg-white text-black rounded-md">
         <div className=" p-2 rounded-lg w-full max-w-2xl mx-auto">
           {/* Task Header */}
-          <div className="flex px-8 ">
+          <div className="flex ">
             <div
               // onClick={toggleExpand}
-              className=" flex gap-2 justify-between w-full "
+              className=" flex gap-2 justify-center w-full "
             >
               <strong className="cursor-pointer" onClick={toggleExpand}>
                 {task.name}{" "}
@@ -78,7 +80,18 @@ function TaskItem({ task }) {
   );
 }
 
-export default function TaskList() {
+function saveTaskList(taskList, userName) {
+  // Save the task list to the server
+  if (taskList.length > 0) {
+    taskList.forEach((task) => {
+      saveList(userName, task.name, task.description, task.deadline);
+    });
+  } else {
+    saveList(userName, "", "", "");
+  }
+}
+
+export default function TaskList({ userName }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -100,18 +113,18 @@ export default function TaskList() {
 
   // Initial task list with additional fields
   const [taskList, setTaskList] = useState([
-    {
-      id: 1,
-      name: "Sample Task 1",
-      description: "This is a detailed description of task 1. ",
-      deadline: "2025-01-20",
-    },
-    {
-      id: 2,
-      name: "Sample Task 2",
-      description: "This is a detailed description of task 2.",
-      deadline: "2025-02-15",
-    },
+    // {
+    //   id: 1,
+    //   name: "Sample Task 1",
+    //   description: "This is a detailed description of task 1. ",
+    //   deadline: "2025-01-20",
+    // },
+    // {
+    //   id: 2,
+    //   name: "Sample Task 2",
+    //   description: "This is a detailed description of task 2.",
+    //   deadline: "2025-02-15",
+    // },
   ]);
 
   const addTask = (taskName, taskDescription, taskDeadline) => {
@@ -158,7 +171,10 @@ export default function TaskList() {
 
       {!isAdding && !isEditing && (
         <div className="flex flex-col gap-4">
-          <div className="flex justify-center p-2 pb-8 ">
+          <h1 className="text-center font-bold py-4 text-2xl">
+            {userName}&apos;s Tasks
+          </h1>
+          <div className="flex justify-center p-2 pb-8 gap-4 ">
             <button
               onClick={() => setIsAdding(true)}
               className="flex flex-row justify-center items-center gap-2 p-2 text-green-700
@@ -166,6 +182,14 @@ export default function TaskList() {
                transition-all ease-in-out duration-500"
             >
               <MdOutlineAdd /> New Task
+            </button>
+            <button
+              onClick={() => saveTaskList(taskList, userName)}
+              className="flex flex-row justify-center items-center gap-2 p-2 text-green-700
+               bg-white rounded-lg hover:text-white hover:bg-green-500 hover:px-4 
+               transition-all ease-in-out duration-500"
+            >
+              <MdSave /> Save Tasks
             </button>
           </div>
 
@@ -177,7 +201,7 @@ export default function TaskList() {
               taskList.map((task) => (
                 <div
                   key={task.id}
-                  className="flex flex-col items-center gap-2 w-1/3 bg-black p-2 rounded-lg"
+                  className="flex flex-col items-center gap-2 w-2/3 bg-black p-2 rounded-lg"
                 >
                   <TaskItem key={task.id} task={task} />
                   <div className="flex justify-between w-full">

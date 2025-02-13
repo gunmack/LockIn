@@ -11,11 +11,6 @@ export default function EditTask({ task, onUpdateTask, onCancel }) {
   );
   const [taskDeadline, setTaskDeadline] = useState(task?.deadline || "");
 
-  // Handle text input changes
-  const handleInputChange = (e) => {
-    setTaskInput(e.target.value);
-  };
-
   const handleDescriptionChange = (e) => {
     setTaskDescription(e.target.value);
   };
@@ -40,14 +35,14 @@ export default function EditTask({ task, onUpdateTask, onCancel }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 py-4">
+    <div className="flex flex-col gap-4 py-4 px-4">
       <h2 className="text-2xl font-bold">Edit Task</h2>
       <div>
         Task name
         <textarea
           type="text"
           value={taskInput}
-          onChange={handleInputChange}
+          disabled
           placeholder="Enter task name"
           className=" p-4 border border-gray-300 rounded-lg text-black w-full"
           rows={1}

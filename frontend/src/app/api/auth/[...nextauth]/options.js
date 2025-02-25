@@ -11,16 +11,15 @@ async function authorizeDB(credentials) {
       email: credentials.email,
     });
     if (
-      bcrypt.compare(credentials.password, user.password)
+      await bcrypt.compare(credentials.password, user.password)
       // user.password === credentials.password
     ) {
-      return { id: user._id, name: user.username };
+      return { id: user._id, name: user.username, authenticated: true };
     } else {
-      return null;
+      throw new Error("Invalid password");
     }
   } catch (error) {
-    console.error("Error authenticating user:", error);
-    return null;
+    throw new Error("Error authenticating user:", error);
   }
 }
 
@@ -46,12 +45,13 @@ export const options = {
           label: "Password",
           type: "password",
           placeholder: "password",
+          required: true,
         },
       },
       async authorize(credentials) {
         const user = await authorizeDB(credentials);
 
-        if (user) {
+        if (user.authenticated === true) {
           return user;
         } else {
           return null;

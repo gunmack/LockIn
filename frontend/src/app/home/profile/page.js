@@ -7,7 +7,8 @@ export default async function Profile() {
     <div>
       <div>
         <h1 className="text-center font-bold py-4 text-2xl">Profile</h1>
-        {session && <div>Name: {session.user.name}</div>}
+        {session && <div>Name: {session.user.name}<br/>
+        Email: {session.user.email}</div>}
       </div>
     </div>
   );

@@ -14,7 +14,8 @@ async function authorizeDB(credentials) {
       await bcrypt.compare(credentials.password, user.password)
       // user.password === credentials.password
     ) {
-      return { id: user._id, name: user.username, authenticated: true };
+      return { id: user._id, name: user.username, 
+        email: user.email, authenticated: true };
     } else {
       throw new Error("Invalid password");
     }
@@ -59,6 +60,15 @@ export const options = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email; // ✅ Add email to session
+      }
+      return session;
+    },
+  },
   pages: {},
   secret: process.env.NEXTAUTH_SECRET,
 };

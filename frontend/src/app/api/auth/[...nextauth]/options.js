@@ -14,13 +14,17 @@ async function authorizeDB(credentials) {
       await bcrypt.compare(credentials.password, user.password)
       // user.password === credentials.password
     ) {
-      return { id: user._id, name: user.username, 
-        email: user.email, authenticated: true };
+      return {
+        id: user._id,
+        name: user.username,
+        email: user.email,
+        authenticated: true,
+      };
     } else {
-      throw new Error("Invalid password");
+      return { success: false, message: "Invalid password" };
     }
   } catch (error) {
-    throw new Error("Error authenticating user:", error);
+    return { success: false, message: "Error authenticating user" };
   }
 }
 

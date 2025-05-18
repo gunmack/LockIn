@@ -3,13 +3,15 @@ import { VscDebugStart } from "react-icons/vsc";
 import { FaPause } from "react-icons/fa";
 import { RiResetRightFill } from "react-icons/ri";
 export default function Stopwatch() {
-
   const [resetAble, setresetAble] = useState(false); // Pause state
   const timerRef = useRef(null); // Reference for the interval
 
   const [time, setTime] = useState(() => {
     // Load saved time from localStorage if available
     const savedTime = localStorage.getItem("stopwatch-time");
+    if (savedTime && !isNaN(savedTime)) {
+      setresetAble(true);
+    }
     return savedTime ? parseInt(savedTime, 10) : 0;
   });
 
@@ -33,7 +35,9 @@ export default function Stopwatch() {
   // Stop the stopwatch
   const stopStopwatch = () => {
     if (isRunning) {
-      const elapsedTime = Date.now() - parseInt(localStorage.getItem("stopwatch-startTimestamp"), 10);
+      const elapsedTime =
+        Date.now() -
+        parseInt(localStorage.getItem("stopwatch-startTimestamp"), 10);
       setTime(elapsedTime);
       localStorage.setItem("stopwatch-time", elapsedTime);
       setIsRunning(false);
@@ -67,7 +71,10 @@ export default function Stopwatch() {
   // Effect to update time while running
   useEffect(() => {
     if (isRunning) {
-      const startTimestamp = parseInt(localStorage.getItem("stopwatch-startTimestamp"), 10);
+      const startTimestamp = parseInt(
+        localStorage.getItem("stopwatch-startTimestamp"),
+        10
+      );
       timerRef.current = setInterval(() => {
         setTime(Date.now() - startTimestamp);
       }, 10);

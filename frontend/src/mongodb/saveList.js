@@ -1,4 +1,4 @@
-import { connectToMongoDB, closeMongoDBConnection } from "@/mongodb/connect";
+import { connectToMongoDB } from "@/mongodb/connect";
 
 export default async function saveList(userName, name, description, deadline) {
   try {
@@ -6,17 +6,6 @@ export default async function saveList(userName, name, description, deadline) {
     // console.log(db.name);
     const collection = await db.collection("Users");
 
-    if (name === "" && description === "" && deadline === "") {
-      await collection.updateOne(
-        { username: userName },
-        { $unset: { tasks: "" } }
-      ); // Removes 'tasks' completely
-    }
-
-    await collection.updateOne(
-      { username: userName },
-      { $unset: { tasks: "" } }
-    ); // Removes 'tasks' completely
     const result = await collection.updateOne(
       { username: userName }, // Find document by username
       {

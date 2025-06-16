@@ -3,13 +3,13 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import TaskList from "@/app/home/tasks/list";
 import TaskPanel from "@/app/home/tasks/panel";
 
-async function getUserName() {
+async function getUser() {
   const session = await getServerSession(options);
-  return session.user.name;
+  return session.user;
 }
 
 export default function Tasks() {
-  const user = getUserName();
+  const user = getUser();
 
   return (
     <div className=" w-full min-h-[70vh]  text-black ">

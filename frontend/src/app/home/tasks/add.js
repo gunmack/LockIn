@@ -1,5 +1,27 @@
 "use client";
 import { useState } from "react";
+// async function add(name, description, deadline) {
+//   try {
+//     const response = await fetch("/api/addTask", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ name, description, deadline }),
+//     });
+
+//     if (!response.ok) {
+//       // Handle non-2xx responses (e.g., 400, 500 errors)
+//       throw new Error(`Error: ${response.statusText}`);
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error("Error saving tasks:", error);
+//     // Optionally, return or throw a custom error based on the failure
+//     return { error: "There was an error while saving the tasks." };
+//   }
+// }
 
 export default function AddTask({ onAddTask, onCancel }) {
   // State for the input field
@@ -24,6 +46,8 @@ export default function AddTask({ onAddTask, onCancel }) {
   const handleAddTask = () => {
     if (taskInput.trim() !== "") {
       // Call the parent function to add the task
+      console.log("Adding task:", taskInput, taskDescription, taskDeadline);
+      // add (taskInput, taskDescription, taskDeadline)
       onAddTask(taskInput, taskDescription, taskDeadline);
       setTaskInput(""); // Clear input after adding task
       setTaskDescription(""); // Clear description after adding task

@@ -1,16 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-export default function Completed() {
-  const [tasks, setTasks] = useState([]);
+import fetchTasks from "@/app/home/tasks/fetch";
 
+export default function Completed({ refreshSignal }) {
+  const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const filtered = data.filter((task) => task.status === "complete");
-        setTasks(filtered);
-      });
+    async function loadTasks() {
+      const filtered = await fetchTasks("complete");
+      setTasks(filtered);
+    }
+    loadTasks();
   }, []);
 
   return (
@@ -25,7 +25,6 @@ export default function Completed() {
             <h3 className="font-semibold text-center text-sm md:text-lg">
               {task.title}
             </h3>
-            {/* <p className="text-sm text-gray-300">{task.description}</p> */}
           </div>
           <div className=" sm:ml-auto items-center sm:items-end sm:my-2 p-2 bg-green-600 rounded-lg">
             <p className="font-bold text-center text-sm md:text-lg ">

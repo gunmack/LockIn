@@ -1,15 +1,17 @@
 "use client";
+import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-export default function InProgress() {
+import fetchTasks from "@/app/home/tasks/fetch";
+
+export default function InProgress({ refreshSignal }) {
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const filtered = data.filter((task) => task.status === "in-progress");
-        setTasks(filtered);
-      });
+    async function loadTasks() {
+      const filtered = await fetchTasks("in-progress");
+      setTasks(filtered);
+    }
+    loadTasks();
   }, []);
 
   return (

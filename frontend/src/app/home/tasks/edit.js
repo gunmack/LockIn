@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import ConfirmModal from "@/app/home/tasks/confirm";
 
 export default function EditTask({ task, onUpdateTask, onCancel }) {

@@ -1,17 +1,18 @@
 "use client";
+import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import fetchTasks from "@/app/home/tasks/fetch";
 
-export default function TodoList() {
+export default function TodoList({ refreshSignal }) {
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const filtered = data.filter((task) => task.status === "to-do");
-        setTasks(filtered);
-      });
-  }, []);
+    async function loadTasks() {
+      const filtered = await fetchTasks("to-do");
+      setTasks(filtered);
+    }
+    loadTasks();
+  }, [refreshSignal]);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:gap-8 sm:p-8  ">

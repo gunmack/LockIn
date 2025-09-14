@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 export default function TaskDetails() {
@@ -7,12 +7,16 @@ export default function TaskDetails() {
   const [task, setTask] = useState(null);
 
   useEffect(() => {
-    fetch("/tasks.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const found = data.find((t) => t.id.toString() === id);
-        setTask(found);
-      });
+    async function fetchTaskByID() {
+      const res = await fetch("/api/fetchList");
+      const data = await res.json();
+      console.log("Fetched data:", data);
+      const filteredTask = data.todos?.tasks.find(
+        (task) => task.id === Number(id) // filter inside the array for ID
+      );
+      setTask(filteredTask);
+    }
+    fetchTaskByID();
   }, [id]);
 
   if (!task) return <div className="p-8 text-white">Loading...</div>;

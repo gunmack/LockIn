@@ -1,0 +1,81 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Write project proposal",
+      "description": "Draft a detailed proposal outlining the project goals and timeline.",
+      "dueDate": "2025-05-22",
+      "status": "to-do"
+    },
+    {
+      "id": 2,
+      "title": "Create wireframes for homepage",
+      "description": "Design the layout and basic structure for the main landing page.",
+      "dueDate": "2025-05-23",
+      "status": "to-do"
+    },
+    {
+      "id": 3,
+      "title": "Schedule team kickoff meeting",
+      "description": "Coordinate a meeting with all team members to discuss project scope.",
+      "dueDate": "2025-05-20",
+      "status": "in-progress"
+    },
+    {
+      "id": 4,
+      "title": "Research competitor apps",
+      "description": "Analyze features and UX patterns in similar applications.",
+      "dueDate": "2025-05-24",
+      "status": "complete"
+    },
+    {
+      "id": 5,
+      "title": "Design dashboard UI",
+      "description": "Create the user interface for the main user dashboard.",
+      "dueDate": "2025-05-28",
+      "status": "to-do"
+    },
+    {
+      "id": 6,
+      "title": "Write API documentation",
+      "description": "Document all backend endpoints with examples and expected inputs/outputs.",
+      "dueDate": "2025-05-26",
+      "status": "in-progress"
+    },
+    {
+      "id": 7,
+      "title": "Set up GitHub repo",
+      "description": "Initialize GitHub repository and push starter project files.",
+      "dueDate": "2025-05-15",
+      "status": "to-do"
+    },
+    {
+      "id": 8,
+      "title": "Install project dependencies",
+      "description": "Install all necessary packages and libraries using npm or yarn.",
+      "dueDate": "2025-05-15",
+      "status": "complete"
+    },
+    {
+      "id": 9,
+      "title": "Configure ESLint and Prettier",
+      "description": "Set up code formatting and linting rules for consistent style.",
+      "dueDate": "2025-05-16",
+      "status": "complete"
+    },
+    {
+      "id": 10,
+      "title": "Testing Reload",
+      "description": "please work for the love of god",
+      "dueDate": "2025-09-14",
+      "status": "to-do"
+    },
+    {
+      "id": 11,
+      "title": "Testing Reload pt.2",
+      "description": "asdafasdf",
+      "dueDate": "2025-09-14",
+      "status": "to-do"
+    }
+  ]
+}

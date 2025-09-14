@@ -1,6 +1,6 @@
+import React from "react";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
-import TaskList from "@/app/home/tasks/list";
 import TaskPanel from "@/app/home/tasks/panel";
 
 async function getUser() {

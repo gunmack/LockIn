@@ -15,9 +15,9 @@ async function saveList(userName, name, description, deadline) {
 
     return await response.json();
   } catch (error) {
-    console.error("Error checking email:", error);
+    console.error("Error saving tasks:", error);
     // Optionally, return or throw a custom error based on the failure
-    return { error: "There was an error checking the email." };
+    return { error: "There was an error while saving the tasks." };
   }
 }
 

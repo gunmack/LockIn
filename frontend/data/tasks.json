@@ -1,18 +1,17 @@
 {
   "tasks": [
     {
-      "id": 1,
       "title": "Write project proposal",
-      "description": "Draft a detailed proposal outlining the project goals and timeline.",
+      "description": "Draft a detailed proposal outlining the project goals and timeline.\n- Does it work?\n- #2",
       "dueDate": "2025-05-22",
+      "id": 1,
       "status": "to-do"
     },
     {
-      "id": 2,
       "title": "Create wireframes for homepage",
-      "description": "Design the layout and basic structure for the main landing page.",
+      "description": "Testing Editing functionality",
       "dueDate": "2025-05-23",
-      "status": "to-do"
+      "id": 2
     },
     {
       "id": 3,
@@ -29,10 +28,10 @@
       "status": "complete"
     },
     {
-      "id": 5,
       "title": "Design dashboard UI",
-      "description": "Create the user interface for the main user dashboard.",
+      "description": "\nk;l'k",
       "dueDate": "2025-05-28",
+      "id": 5,
       "status": "to-do"
     },
     {
@@ -43,10 +42,10 @@
       "status": "in-progress"
     },
     {
-      "id": 7,
       "title": "Set up GitHub repo",
       "description": "Initialize GitHub repository and push starter project files.",
       "dueDate": "2025-05-15",
+      "id": 7,
       "status": "to-do"
     },
     {
@@ -75,6 +74,13 @@
       "title": "Testing Reload pt.2",
       "description": "asdafasdf",
       "dueDate": "2025-09-14",
+      "status": "to-do"
+    },
+    {
+      "id": 12,
+      "title": "Checking Adding",
+      "description": "hellow",
+      "dueDate": "2025-09-16",
       "status": "to-do"
     }
   ]

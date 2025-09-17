@@ -16,7 +16,7 @@ export default function AddTask({ onCancel, onTaskAdded }) {
       };
 
       try {
-        const res = await fetch("/api/addToList", {
+        const res = await fetch("/api/addTask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newTask),

@@ -1,6 +1,6 @@
-// pages/api/addToList.js
 import fs from "fs";
 import path from "path";
+import { nanoid } from "nanoid";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       const data = JSON.parse(fileData);
 
       // Assign a new ID and add the task
-      const taskWithId = { id: data.tasks.length + 1, ...newTask };
+      const taskWithId = { id: nanoid(), ...newTask };
       data.tasks.push(taskWithId);
 
       // Write back to JSON file

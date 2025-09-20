@@ -7,7 +7,7 @@ export default function EditTask({ id, onCancel, onSave }) {
     const res = await fetch("/api/fetchList");
     const data = await res.json();
     const filteredTask = data.todos?.tasks.find(
-      (task) => task.id === Number(id)
+      (task) => task.id === String(id)
     );
     setTask(filteredTask);
   }
@@ -79,6 +79,41 @@ export default function EditTask({ id, onCancel, onSave }) {
           />
         </div>
       </div>
+      <div className="text-black text-md">
+        Task status
+        <div className="border border-gray-300 rounded-lg p-4 w-full flex gap-4">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              value="to-do"
+              checked={task.status === "to-do"}
+              onChange={(e) => setTask({ ...task, status: e.target.value })}
+            />
+            To-Do
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              value="in-progress"
+              checked={task.status === "in-progress"}
+              onChange={(e) => setTask({ ...task, status: e.target.value })}
+            />
+            In Progress
+          </label>
+
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              value="complete"
+              checked={task.status === "complete"}
+              onChange={(e) => setTask({ ...task, status: e.target.value })}
+            />
+            Complete
+          </label>
+        </div>
+      </div>
+
       <div className="flex justify-center gap-2">
         <button
           onClick={handleSaveTask}

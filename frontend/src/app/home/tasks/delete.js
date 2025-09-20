@@ -10,7 +10,7 @@ export default function DeleteTask({ id, onCancel, onDelete }) {
         const res = await fetch(`/api/deleteTask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: Number(id) }),
+          body: JSON.stringify({ id: String(id) }),
         });
         if (res.ok) {
           console.log("Task deleted:", id);

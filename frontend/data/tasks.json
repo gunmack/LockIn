@@ -1,87 +1,18 @@
 {
   "tasks": [
     {
-      "title": "Write project proposal",
-      "description": "Draft a detailed proposal outlining the project goals and timeline.\n- Does it work?\n- #2",
-      "dueDate": "2025-05-22",
-      "id": 1,
-      "status": "to-do"
-    },
-    {
-      "title": "Create wireframes for homepage",
-      "description": "Testing Editing functionality",
-      "dueDate": "2025-05-23",
-      "id": 2
-    },
-    {
-      "id": 3,
-      "title": "Schedule team kickoff meeting",
-      "description": "Coordinate a meeting with all team members to discuss project scope.",
-      "dueDate": "2025-05-20",
-      "status": "in-progress"
-    },
-    {
-      "id": 4,
-      "title": "Research competitor apps",
-      "description": "Analyze features and UX patterns in similar applications.",
-      "dueDate": "2025-05-24",
+      "title": "Testing UUID",
+      "description": "Testing out new library for generating uniques Ids",
+      "dueDate": "2025-09-21",
+      "id": "01c6087c-8894-4f9a-9969-aa5ca9298b72",
       "status": "complete"
     },
     {
-      "title": "Design dashboard UI",
-      "description": "\nk;l'k",
-      "dueDate": "2025-05-28",
-      "id": 5,
-      "status": "to-do"
-    },
-    {
-      "id": 6,
-      "title": "Write API documentation",
-      "description": "Document all backend endpoints with examples and expected inputs/outputs.",
-      "dueDate": "2025-05-26",
-      "status": "in-progress"
-    },
-    {
-      "title": "Set up GitHub repo",
-      "description": "Initialize GitHub repository and push starter project files.",
-      "dueDate": "2025-05-15",
-      "id": 7,
-      "status": "to-do"
-    },
-    {
-      "id": 8,
-      "title": "Install project dependencies",
-      "description": "Install all necessary packages and libraries using npm or yarn.",
-      "dueDate": "2025-05-15",
+      "title": "Testing Nano ID",
+      "description": "This library generates short URLs",
+      "dueDate": "2025-09-21",
+      "id": "wbDv24hIpyA89orL_ty8r",
       "status": "complete"
-    },
-    {
-      "id": 9,
-      "title": "Configure ESLint and Prettier",
-      "description": "Set up code formatting and linting rules for consistent style.",
-      "dueDate": "2025-05-16",
-      "status": "complete"
-    },
-    {
-      "id": 10,
-      "title": "Testing Reload",
-      "description": "please work for the love of god",
-      "dueDate": "2025-09-14",
-      "status": "to-do"
-    },
-    {
-      "id": 11,
-      "title": "Testing Reload pt.2",
-      "description": "asdafasdf",
-      "dueDate": "2025-09-14",
-      "status": "to-do"
-    },
-    {
-      "id": 12,
-      "title": "Checking Adding",
-      "description": "hellow",
-      "dueDate": "2025-09-16",
-      "status": "to-do"
     }
   ]
 }

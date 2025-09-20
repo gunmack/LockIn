@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddTask({ onCancel, onTaskAdded }) {
+  const router = useRouter();
   const [taskInput, setTaskInput] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskDeadline, setTaskDeadline] = useState("");
@@ -40,6 +42,7 @@ export default function AddTask({ onCancel, onTaskAdded }) {
           if (onCancel) {
             onCancel();
           }
+          router.push("/home/tasks");
         } else {
           console.error("Failed to add task");
         }

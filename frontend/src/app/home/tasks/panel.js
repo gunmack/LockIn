@@ -65,7 +65,7 @@ export default function TaskPanel() {
         </button>
       </div>
 
-      <div className=" min-h-[60vh] max-h-[60vh] w-full overflow-y-auto border border-black bg-black text-white p-2 sm:p-4  ">
+      <div className=" min-h-[60vh] max-h-[60vh] w-full overflow-y-auto border border-black bg-black text-white p-2 sm:p-4 scrollbar-hide ">
         {activeTab === "todo" && (
           <div>
             <TodoList refreshSignal={refresh} />

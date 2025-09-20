@@ -11,7 +11,7 @@ export default function Completed({ refreshSignal }) {
       setTasks(filtered);
     }
     loadTasks();
-  }, []);
+  }, [refreshSignal]);
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:gap-8 sm:p-8">
